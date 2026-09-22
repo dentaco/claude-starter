@@ -1,0 +1,32 @@
+{
+  "model": "opus",
+  "effortLevel": "medium",
+  "modelSettings": { "claude-opus-5": { "effortLevel": "xhigh" } },
+  "permissions": { "defaultMode": "default" },
+  "attribution": { "commit": false },
+  "tui": "fullscreen",
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "autoMemoryEnabled": true,
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true
+  },
+  "statusLine": { "type": "command", "command": "$HOME/.claude/statusline/statusline.sh", "padding": 0 },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "if [ -f tsconfig.json ]; then npx tsc --noEmit; fi", "timeout": 120, "statusMessage": "Typechecking..." }
+        ]
+      },
+      {
+        "matcher": "Bash|mcp__plugin_vercel_vercel__deploy_to_vercel",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/post-deploy-ship.sh", "timeout": 15, "statusMessage": "Checking for deploy..." }
+        ]
+      }
+    ]
+  }
+}
